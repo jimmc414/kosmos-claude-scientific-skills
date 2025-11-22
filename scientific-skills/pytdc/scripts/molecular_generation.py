@@ -5,6 +5,11 @@ TDC Molecular Generation with Oracles Template
 This script demonstrates how to use TDC oracles for molecular generation
 tasks including goal-directed generation and distribution learning.
 
+Requirements:
+    - tdc: uv pip install PyTDC
+    - numpy: uv pip install numpy
+    - scipy: uv pip install scipy (required for distribution_learning_example)
+
 Usage:
     python molecular_generation.py
 """

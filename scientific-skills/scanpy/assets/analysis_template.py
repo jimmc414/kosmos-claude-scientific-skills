@@ -17,10 +17,22 @@ import matplotlib.pyplot as plt
 # CONFIGURATION
 # ============================================================================
 
-# File paths
-INPUT_FILE = 'data/raw_counts.h5ad'  # Change to your input file
-OUTPUT_DIR = 'results/'
-FIGURES_DIR = 'figures/'
+# File paths - configure these before running
+import sys
+import os
+
+# Check if input file is provided via command line or environment variable
+INPUT_FILE = os.getenv('SCANPY_INPUT_FILE', 'data/raw_counts.h5ad')
+OUTPUT_DIR = os.getenv('SCANPY_OUTPUT_DIR', 'results/')
+FIGURES_DIR = os.getenv('SCANPY_FIGURES_DIR', 'figures/')
+
+# If running as script with command line args, override with first argument
+if len(sys.argv) > 1 and __name__ == '__main__':
+    INPUT_FILE = sys.argv[1]
+if len(sys.argv) > 2 and __name__ == '__main__':
+    OUTPUT_DIR = sys.argv[2]
+if len(sys.argv) > 3 and __name__ == '__main__':
+    FIGURES_DIR = sys.argv[3]
 
 # QC parameters
 MIN_GENES = 200          # Minimum genes per cell
@@ -45,6 +57,17 @@ sc.settings.figdir = FIGURES_DIR
 print("=" * 80)
 print("LOADING DATA")
 print("=" * 80)
+
+# Check if input file exists
+if not os.path.exists(INPUT_FILE):
+    print(f"Error: Input file not found: {INPUT_FILE}")
+    print("\nUsage:")
+    print("  python analysis_template.py <input_file> [output_dir] [figures_dir]")
+    print("\nOr set environment variables:")
+    print("  export SCANPY_INPUT_FILE='path/to/data.h5ad'")
+    print("  export SCANPY_OUTPUT_DIR='results/'")
+    print("  export SCANPY_FIGURES_DIR='figures/'")
+    sys.exit(1)
 
 # Load data (adjust based on your file format)
 adata = sc.read_h5ad(INPUT_FILE)

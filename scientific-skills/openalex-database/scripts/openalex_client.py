@@ -323,7 +323,14 @@ class OpenAlexClient:
 
 if __name__ == "__main__":
     # Example usage
-    client = OpenAlexClient(email="your-email@example.com")
+    import os
+
+    # Use environment variable or provide your email for polite pool access (10x rate limit)
+    email = os.getenv("OPENALEX_EMAIL", "your-email@example.com")
+    if email == "your-email@example.com":
+        print("Warning: Using placeholder email. Set OPENALEX_EMAIL environment variable for better rate limits.")
+
+    client = OpenAlexClient(email=email)
 
     # Search for works about machine learning
     results = client.search_works(

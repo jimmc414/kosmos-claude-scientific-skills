@@ -6,7 +6,7 @@ Provides high-level functions for typical research queries.
 """
 
 from typing import List, Dict, Optional, Any
-from openalex_client import OpenAlexClient
+from .openalex_client import OpenAlexClient
 
 
 def find_author_works(
@@ -292,8 +292,12 @@ def analyze_research_output(
 if __name__ == "__main__":
     # Example usage
     import json
+    from .openalex_client import OpenAlexClient
+    import os
 
-    client = OpenAlexClient(email="your-email@example.com")
+    # Use environment variable or default
+    email = os.getenv("OPENALEX_EMAIL", "your-email@example.com")
+    client = OpenAlexClient(email=email)
 
     # Find works by author
     print("\n=== Finding works by author ===")
